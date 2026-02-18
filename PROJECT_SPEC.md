@@ -6,6 +6,9 @@ Statut : **A completer**
 
 ---
 
+Voir modèle : [https://github.com/mikhawa/cv-mikhawa/blob/main/PROJECT_SPEC.md](https://github.com/mikhawa/cv-mikhawa/blob/main/PROJECT_SPEC.md)
+
+
 ## 1. Contexte et objectifs
 
 > _Decrire ici le contexte du projet, le public cible et les objectifs principaux._
