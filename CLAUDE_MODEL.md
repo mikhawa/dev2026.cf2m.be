@@ -1,18 +1,18 @@
 # CLAUDE_MODEL.md — Modele de travail complet
 
-Ce fichier definit le workflow, la structure documentaire, la checklist securite et les pieges courants pour le projet `dev2026.cf2m.be`.
+Ce fichier définit le workflow, la structure documentaire, la checklist securite et les pièges courants pour le projet `dev2026.cf2m.be`.
 
 ---
 
 ## Workflow general
 
 1. **Lire** `CLAUDE.md` et `PROJECT_SPEC.md` avant toute intervention
-2. **Verifier** l'etat du depot (`git status`, `git log --oneline -5`)
+2. **Verifier** l'état du depot (`git status`, `git log --oneline -5`)
 3. **Planifier** les modifications avant de coder
-4. **Coder** en respectant les regles de codage (cf. `CLAUDE.md`)
+4. **Coder** en respectant les règles de codage (cf. `CLAUDE.md`)
 5. **Valider** avec les commandes de verification dans l'ordre defini
-6. **Committer** uniquement sur demande explicite, en francais
-7. **Mettre a jour** la documentation impactee (architecture, journal-decisions)
+6. **Committer** uniquement sur demande explicite, en français
+7. **Mettre a jour** la documentation impactée (architecture, journal-decisions)
 
 ---
 

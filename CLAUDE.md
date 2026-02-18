@@ -1,6 +1,6 @@
-# CLAUDE.md
+# CLAUDE.md (Instructions pour Claude)
 
-Ce fichier Claude Code (claude.ai/code) est le guide pour le projet cf2m.be. 
+Ce fichier Claude Code (claude.ai/code) est le guide pour le projet cf2m.be en mode développement. 
 
 ## Langue du projet
 
@@ -8,31 +8,31 @@ Francais pour le code, les commits, la documentation et les échanges.
 
 ## Vue d'ensemble
 
-Application web backend pour dev2026.cf2m.be. Projet en cours d'initialisation — la stack et l'architecture seront precisees dans `PROJECT_SPEC.md` au demarrage effectif.
+Application web backend pour dev2026.cf2m.be. Projet en cours d'initialisation — la stack et l'architecture seront précisées dans `PROJECT_SPEC.md` au démarrage effectif.
 
-Le fichier `CLAUDE_MODEL.md` contient le modele de travail complet (workflow, structure documentaire, checklist securite, pieges courants). Le consulter pour toute question methodologique.
+Le fichier `CLAUDE_MODEL.md` contient le modèle de travail complet (workflow, structure documentaire, checklist securite, pièges courants). Le consulter pour toute question méthodologique.
 
-## Stack technique cible
+## Stack technique cible de development
 
-Basee sur le retour d'experience du projet cv-mikhawa 
-- **version FPM servie par Nginx)
-- **PHP 8.5** / **Symfony 8.* **
+Basée sur le retour d'expérience du projet cv-mikhawa 
+- **version FPM servie par Nginx**)
+- **PHP 8.4.5.*** / **Symfony 7.* **
 - **MariaDB v11.4.10** (Doctrine ORM)
 - **PHPMYADMIN pour gérer la DB**
 - **AssetMapper** for frontend assets (no Webpack Encore, no build step)
 - **Tailwind CSS 4.x** (with importmap)
-- **Stimulus.js** + **Symfony UX Turbo** + **Twig Components** + **ReactUX Components**
+- **Stimulus.js** + **Symfony UX Turbo** + **Twig Components** + **ReactUX Components (ux-react)**
 - **EasyAdmin 4.x** for admin interface
 - **VichUploaderBundle** for image uploads
 - **SunEditor** for WYSIWYG editor
 - **Docker Compose** (environnement de dev)
 - **OS hote :** WSL2 (Linux sous Windows)
 
-> Mettre a jour cette section des que `composer.json` et `docker-compose.yml` sont crees.
+> Mettre à jour cette section dès que `composer.json` et `docker-compose.yml` sont créés.
 
 ## Commandes de verification (dans Docker)
 
-Executer dans l'ordre — corriger chaque etape avant de passer a la suivante :
+Exécuter dans l'ordre — corriger chaque étape avant de passer a la suivante :
 
 ```bash
 # Validation du projet
