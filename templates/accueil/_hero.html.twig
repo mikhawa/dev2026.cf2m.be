@@ -1,0 +1,100 @@
+{# Section Hero - Page d'accueil CF2M #}
+<section class="relative min-h-screen overflow-hidden">
+
+    {# Fond dégradé (placeholder en attendant l'image de fond) #}
+    <div class="absolute inset-0 bg-gradient-to-br from-[#1a2e4a] via-[#1e3a5f] to-[#2a4a6f]"></div>
+
+    {# Overlay pour l'effet de profondeur #}
+    <div class="absolute inset-0 bg-black/20"></div>
+
+    {# Navigation avec glassmorphism #}
+    <header class="relative z-20">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+            {# Logo CF2M #}
+            <a href="{{ path('app_accueil') }}" class="flex items-center">
+                <div class="flex h-12 w-12 items-center justify-center rounded-full border-2 border-white/40 bg-white/20 backdrop-blur-md">
+                    <span class="text-lg font-bold text-white">fm</span>
+                </div>
+            </a>
+
+            {# Liens de navigation #}
+            <div class="hidden items-center gap-8 md:flex">
+                <a href="#formations" class="text-sm font-medium text-white/90 transition hover:text-white">
+                    Nos Formations
+                </a>
+                <a href="#contact" class="text-sm font-medium text-white/90 transition hover:text-white">
+                    Nous contacter
+                </a>
+                <a href="#activites" class="text-sm font-medium text-white/90 transition hover:text-white">
+                    Nos activités
+                </a>
+            </div>
+
+            {# Menu mobile #}
+            <button type="button" class="text-white md:hidden" aria-label="Ouvrir le menu">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    {# Contenu principal du hero #}
+    <div class="relative z-10 mx-auto flex max-w-7xl flex-col items-center px-6 pt-12 lg:flex-row lg:items-center lg:gap-12 lg:px-8 lg:pt-20">
+
+        {# Colonne texte #}
+        <div class="flex-1 text-center lg:text-left">
+            {# Surtitre #}
+            <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/70 lg:text-sm">
+                Formations professionnelles
+            </p>
+
+            {# Titre principal #}
+            <h1 class="mb-10 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                des métiers du numérique
+            </h1>
+
+            {# Chiffres clés - carte glassmorphism #}
+            <div class="mb-10 inline-flex flex-wrap items-center justify-center gap-8 rounded-2xl border border-white/20 bg-white/10 px-8 py-6 backdrop-blur-md lg:justify-start lg:gap-12">
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-teal-400 lg:text-4xl">100%</p>
+                    <p class="mt-1 text-xs text-white/70">gratuit</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-teal-400 lg:text-4xl">80%</p>
+                    <p class="mt-1 text-xs text-white/70">de pratique</p>
+                </div>
+                <div class="text-center">
+                    <p class="text-3xl font-bold text-teal-400 lg:text-4xl">1600 h</p>
+                    <p class="mt-1 text-xs text-white/70">de cours</p>
+                </div>
+            </div>
+
+            {# Bouton CTA #}
+            <div class="mb-12 lg:mb-0">
+                <a href="#formations"
+                   class="inline-block rounded-lg bg-teal-500 px-8 py-3 text-sm font-semibold uppercase tracking-wider text-white shadow-lg transition hover:bg-teal-600 hover:shadow-xl">
+                    Nos Formations
+                </a>
+            </div>
+        </div>
+
+        {# Colonne image - portrait dans cercle décoratif #}
+        <div class="relative flex flex-1 items-center justify-center">
+            {# Cercle décoratif extérieur #}
+            <div class="relative h-64 w-64 rounded-full border-4 border-white/20 sm:h-80 sm:w-80 lg:h-96 lg:w-96">
+                {# Cercle intérieur avec placeholder #}
+                <div class="absolute inset-4 overflow-hidden rounded-full bg-gradient-to-br from-gray-300 to-gray-400">
+                    {# Placeholder portrait - remplacer par une vraie image #}
+                    <div class="flex h-full w-full items-center justify-center text-6xl text-gray-500/50">
+                        👩‍💻
+                    </div>
+                </div>
+
+                {# Accent décoratif teal #}
+                <div class="absolute -right-2 top-8 h-16 w-16 rounded-full bg-teal-500/30 backdrop-blur-sm"></div>
+                <div class="absolute -bottom-2 left-8 h-12 w-12 rounded-full bg-teal-400/20 backdrop-blur-sm"></div>
+            </div>
+        </div>
+    </div>
+</section>

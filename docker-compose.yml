@@ -1,0 +1,51 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: cf2m_php
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "mysql://cf2m_user:cf2m_pass@db:3306/cf2m_db?serverVersion=11.4.10-MariaDB"
+
+  nginx:
+    image: nginx:alpine
+    container_name: cf2m_nginx
+    ports:
+      - "8085:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+  db:
+    image: mariadb:11.4
+    container_name: cf2m_db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cf2m_db
+      MYSQL_USER: cf2m_user
+      MYSQL_PASSWORD: cf2m_pass
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: cf2m_phpmyadmin
+    ports:
+      - "8181:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: cf2m_user
+      PMA_PASSWORD: cf2m_pass
+    depends_on:
+      - db
+
+volumes:
+  db_data:

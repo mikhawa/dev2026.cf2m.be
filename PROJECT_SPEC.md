@@ -53,7 +53,7 @@ Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfo
 | Contrainte | Valeur |
 |------------|--------|
 | PHP | 8.4.5 |
-| Symfony | 7.* |
+| Symfony | 7.4 LTS (--webapp) |
 | MariaDB | 11.4.10 |
 | CSS | Tailwind CSS 4.x (glassmorphism) |
 | Frontend | AssetMapper + Stimulus + Turbo |
@@ -70,7 +70,7 @@ Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfo
 | Role | Acces |
 |------|-------|
 | `ROLE_ADMIN` | Acces complet : tout modifier via EasyAdmin |
-| `ROLE_USER` | Modification de certaines parties du contenu (a preciser) |
+| `ROLE_USER` | Ajout/modification de travaux d'eleves dans leur section de formation |
 | Anonyme | Consultation du site public (accueil, formations, contact) |
 
 ---
@@ -142,9 +142,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 ```
 
 - **Formation** : id, titre, description, icone/image, slug, position (ordre d'affichage), active
-- **Partenaire** : id, nom, logo (upload + redimensionnement), url, position, active
+- **Partenaire** : id, nom, logo (upload + redimensionnement 300x200px), url, position, active
 - **PageContent** : id, section (hero, presentation, avantages...), contenu (JSON ou texte), updatedAt
-- **Contact** : id, nom, email, sujet, message, createdAt (historique des messages recus)
+- **PreInscription** : id, formation (ManyToOne), nom, prenom, email, telephone, message, createdAt
+- **Contact** : id, nom, email, sujet, message, createdAt (historique des messages recus) — envoi vers administration@cf2m.be
+- **TravailEleve** : id, titre, description, image/fichier, user (ManyToOne), formation (ManyToOne), createdAt
 
 ---
 
@@ -155,7 +157,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 - Fond avec degradé ou image floue
 - Cartes semi-transparentes avec `backdrop-filter: blur()` et bordures subtiles
 - Effets de verre sur les sections principales (hero, formations, partenaires)
-- Palette de couleurs a definir (tons du logo CF2M)
+- Palette de couleurs basee sur les tons du logo CF2M
 
 ### Pages principales
 
@@ -163,7 +165,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 |------|-------------|
 | Accueil | Hero + presentation + formations + avantages + partenaires + video |
 | Formations | Liste des formations avec fiches detaillees |
-| Contact | Formulaire (nom, email, sujet, message) |
+| Contact | Formulaire (nom, email, sujet, message) — envoi vers administration@cf2m.be |
+| Pre-inscription | Formulaire lie a une formation ouverte |
+| Travaux d'eleves | Section par formation, geree par les ROLE_USER |
 | Admin | EasyAdmin : CRUD formations, partenaires, contenu, utilisateurs |
 
 ---
@@ -179,6 +183,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 - [ ] Formulaire de contact operationnel (envoi email)
 - [ ] Formations administrables (ajout/modification/suppression)
 - [ ] Tracking Matomo + Facebook Pixel integre
+- [ ] Formulaire de pre-inscription fonctionnel
+- [ ] Travaux d'eleves : ajout par les utilisateurs ROLE_USER
 
 ---
 
@@ -188,3 +194,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 |---------|------|-------------|
 | 0.1 | 2026-02-18 | Creation du cahier des charges |
 | 0.2 | 2026-02-19 | Redaction complete basee sur l'analyse du site existant |
+| 0.3 | 2026-02-19 | Ajout pre-inscriptions, travaux d'eleves, precision roles/logos/contact |

@@ -11,31 +11,35 @@ Statut : **A completer**
 ```
 [Navigateur]
      |
-     | HTTPS
+     | HTTP (:8085)
      v
 [Nginx] ──── fichiers statiques (public/)
      |
-     | FastCGI
+     | FastCGI (:9000)
      v
-[PHP-FPM 8.5 / Symfony 8.*]
+[PHP-FPM 8.4 / Symfony 7.4]
      |
      | Doctrine ORM
      v
-[MariaDB 11.4.10]
+[MariaDB 11.4]
 ```
 
 ---
 
 ## 2. Environnement Docker
 
-| Service | Image | Port expose |
-|---------|-------|-------------|
-| `php` | php:8.5-fpm | — |
-| `nginx` | nginx:alpine | 80, 443 |
-| `db` | mariadb:11.4 | 3306 |
-| `phpmyadmin` | phpmyadmin | 8080 |
+| Service | Image | Port local → conteneur |
+|---------|-------|------------------------|
+| `php` | `php:8.4-fpm` (build custom) | — (FastCGI 9000 interne) |
+| `nginx` | `nginx:alpine` | 8085 → 80 |
+| `db` | `mariadb:11.4` | 3306 → 3306 |
+| `phpmyadmin` | `phpmyadmin:latest` | 8181 → 80 |
 
-> Mettre a jour des que `docker-compose.yml` est cree.
+Volumes :
+- `.:/var/www/html` monte dans `php` et `nginx`
+- `db_data:/var/lib/mysql` pour la persistance MariaDB
+
+Base de donnees : `cf2m_db` / utilisateur `cf2m_user`
 
 ---
 
@@ -123,3 +127,4 @@ dev2026.cf2m.be/
 | Date | Description |
 |------|-------------|
 | 2026-02-18 | Creation du document (structure initiale) |
+| 2026-02-19 | Mise a jour section 2 : versions et ports corriges apres creation docker-compose.yml |

@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:www.cf2m.be)"
+      "WebFetch(domain:www.cf2m.be)",
+      "Bash(git -C /home/mikhawa/dev2026.cf2m.be log --oneline -10)"
     ]
   }
 }
