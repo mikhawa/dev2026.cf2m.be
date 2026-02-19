@@ -15,8 +15,8 @@ Le fichier `CLAUDE_MODEL.md` contient le modèle de travail complet (workflow, s
 ## Stack technique cible de development
 
 Basée sur le retour d'expérience du projet cv-mikhawa 
-- **version FPM servie par Nginx**)
-- **PHP 8.4.5.*** / **Symfony 7.* **
+- **version FPM servie par Nginx**
+- **PHP 8.4.5.*** / **Symfony 7.4.* **
 - **MariaDB v11.4.10** (Doctrine ORM)
 - **PHPMYADMIN pour gérer la DB**
 - **AssetMapper** for frontend assets (no Webpack Encore, no build step)
