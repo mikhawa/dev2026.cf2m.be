@@ -6,11 +6,11 @@ Statut : **En cours de redaction**
 
 ---
 
-Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfony 7 / Tailwind CSS 4.
+Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfony 7.4 LTS --webapp / Tailwind CSS 4.
 
 ## 1. Contexte et objectifs
 
-- **Contexte :** Le CF2M (Centre de Formation 2 Mille) est un centre de formation professionnelle aux metiers du numerique situe a Saint-Gilles (Bruxelles). Le site actuel tourne sous Symfony 5.4 et necessite une refonte technique et visuelle complete.
+- **Contexte :** Le CF2M (Centre de Formation 2 Mille) est un centre de formation professionnelle aux metiers du numérique situe a Saint-Gilles (Bruxelles). Le site actuel tourne sous Symfony 5.4 et necessite une refonte technique et visuelle complete.
 - **Public cible :** Chercheurs et chercheuses d'emploi a Bruxelles, partenaires institutionnels (Actiris, Bruxelles-Formation, etc.), equipe pedagogique.
 - **Objectifs :**
   - Moderniser la stack technique (Symfony 7, PHP 8.4, Tailwind 4)
@@ -35,6 +35,7 @@ Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfo
 - [ ] **Page Contact** : formulaire de contact fonctionnel (envoi email)
 - [ ] **Gestion des partenaires** : CRUD admin + upload/redimensionnement de logos (VichUploader)
 - [ ] **Gestion des formations** : CRUD admin, ajout/modification/suppression
+- [ ] ** ajout d'un formulaire de préinscriptions pour les formations ouvertes
 - [ ] **Tracking analytique** : Matomo + Facebook Pixel
 - [ ] **Espace administration** (EasyAdmin) : gestion complete du contenu
 - [ ] **Gestion des utilisateurs** : admin + utilisateurs avec permissions partielles
@@ -77,6 +78,69 @@ Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfo
 ## 5. Modele de donnees (ebauche)
 
 - **User** : id, email, password, roles
+
+avec comme exemple :
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use App\Repository\UserRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+// utilisation des contraintes de validation
+use Symfony\Component\Validator\Constraints as Assert;
+
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Table(name: '`user`')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(options: ['unsigned' => true])]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'L\'email ne peut pas être vide.')]
+    #[Assert\Email(message: 'L\'email "{{ value }}" n\'est pas une adresse email valide.')]
+    private ?string $email = null;
+
+    /** @var list<string> */
+    #[ORM\Column]
+    private array $roles = [];
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le mot de passe ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 8,
+        max: 255,
+        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.'
+    )]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Le nom d\'utilisateur ne peut pas être vide.')]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+        minMessage: 'Le nom d\'utilisateur doit contenir au moins {{ limit }} caractères.', maxMessage: 'Le nom d\'utilisateur ne peut pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9_]+$/',
+        message: 'Le nom d\'utilisateur ne peut contenir que des lettres, des chiffres et des underscores.'
+    )]
+    private ?string $userName = null;
+
+    // Getters et setters...
+}
+```
+
 - **Formation** : id, titre, description, icone/image, slug, position (ordre d'affichage), active
 - **Partenaire** : id, nom, logo (upload + redimensionnement), url, position, active
 - **PageContent** : id, section (hero, presentation, avantages...), contenu (JSON ou texte), updatedAt
