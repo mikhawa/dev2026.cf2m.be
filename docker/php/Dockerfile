@@ -44,4 +44,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN git config --global --add safe.directory /var/www/html
+
 WORKDIR /var/www/html
