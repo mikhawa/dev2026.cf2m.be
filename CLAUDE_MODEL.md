@@ -43,25 +43,25 @@ Ce fichier définit le workflow, la structure documentaire, la checklist securit
 A verifier avant chaque commit significatif :
 
 - [ ] Pas de secret ou credential en dur dans le code
-- [ ] Pas de SQL brut concatene (utiliser Doctrine + parametres)
+- [ ] Pas de SQL brut concaténé (utiliser Doctrine + paramètres)
 - [ ] Pas de `|raw` Twig sans passage par HtmlSanitizer
-- [ ] Pas de `eval()`, `exec()` ou fonctions dangereuses non justifiees
+- [ ] Pas de `eval()`, `exec()` ou fonctions dangereuses non justifiées
 - [ ] Variables d'environnement sensibles dans `.env.local` (non versionne)
-- [ ] Entrees utilisateur validees et assainies cote serveur
-- [ ] Dependances auditees (`composer audit`)
+- [ ] Entrées 'utilisateur' validées et assainies coté serveur
+- [ ] Dépendances auditées (`composer audit`)
 - [ ] Permissions fichiers correctes (pas de 777)
 - [ ] CSRF actif sur les formulaires Symfony
 - [ ] Pas de debug actif en production (`APP_ENV=prod`)
 
 ---
 
-## Pieges courants
+## Pièges courants
 
 ### Symfony / Doctrine
 - Oublier de vider le cache apres modification de config : `php bin/console cache:clear`
-- Creer une migration sans valider le schema : toujours lancer `doctrine:schema:validate`
-- Utiliser `findAll()` sur une table volumineuse : preferer la pagination (Doctrine Paginator)
-- Injecter le `EntityManager` directement dans un controller : preferer les Repositories
+- Créer une migration sans valider le schema : toujours lancer `doctrine:schema:validate`
+- Utiliser `findAll()` sur une table volumineuse : préférer la pagination (Doctrine Paginator)
+- Injecter le `EntityManager` directement dans un controller : préférer les Repositories
 
 ### Twig / Frontend
 - Utiliser `|raw` sans assainissement prealable : risque XSS
