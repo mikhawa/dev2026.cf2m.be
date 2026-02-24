@@ -1,8 +1,8 @@
 # PROJECT_SPEC.md — Cahier des charges
 
 Projet : **dev2026.cf2m.be**
-Date de creation : 2026-02-18
-Statut : **En cours de redaction**
+Date de création : 2026-02-18
+Statut : **En cours de rédaction**
 
 ---
 
@@ -10,41 +10,41 @@ Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfo
 
 ## 1. Contexte et objectifs
 
-- **Contexte :** Le CF2M (Centre de Formation 2 Mille) est un centre de formation professionnelle aux metiers du numérique situe a Saint-Gilles (Bruxelles). Le site actuel tourne sous Symfony 5.4 et necessite une refonte technique et visuelle complete.
-- **Public cible :** Chercheurs et chercheuses d'emploi a Bruxelles, partenaires institutionnels (Actiris, Bruxelles-Formation, etc.), equipe pedagogique.
+- **Contexte :** Le CF2M (Centre de Formation 2 Mille) est un centre de formation professionnelle aux métiers du numérique situé à Saint-Gilles (Bruxelles). Le site actuel tourne sous Symfony 5.4 et nécessite une refonte technique et visuelle complète.
+- **Public cible :** Chercheurs et chercheuses d'emploi à Bruxelles, partenaires institutionnels (Actiris, Bruxelles-Formation, etc.), équipe pédagogique.
 - **Objectifs :**
   - Moderniser la stack technique (Symfony 7, PHP 8.4, Tailwind 4)
   - Refonte visuelle totale en **glassmorphism**
-  - Rendre le contenu administrable via EasyAdmin (formations, partenaires, video)
-  - Gestion des roles : admin complet + utilisateurs avec droits limites
+  - Rendre le contenu administrable via EasyAdmin (formations, partenaires, vidéo)
+  - Gestion des rôles : admin complet + utilisateurs avec droits limités
 
 ---
 
-## 2. Perimetre fonctionnel
+## 2. Périmètre fonctionnel
 
-### 2.1 Fonctionnalites principales
+### 2.1 Fonctionnalités principales
 
 - [x] **Page d'accueil** avec sections :
   - [ ] Hero : titre + 2 CTA (Nos formations / Contactez-nous)
-  - [ ] Presentation du CF2M (texte editable)
+  - [ ] Présentation du CF2M (texte éditable)
   - [ ] Liste des formations (dynamique, ajout possible via admin)
-  - [ ] Avantages (4 points cles, editables)
-  - [ ] Partenaires (logos uploades et redimensionnes via admin)
-  - [ ] Video promotionnelle (embed configurable)
-- [ ] **Page Formations** : liste + detail de chaque formation
+  - [ ] Avantages (4 points clés, éditables)
+  - [ ] Partenaires (logos uploadés et redimensionnés via admin)
+  - [ ] Vidéo promotionnelle (embed configurable)
+- [ ] **Page Formations** : liste + détail de chaque formation
 - [ ] **Page Contact** : formulaire de contact fonctionnel (envoi email)
 - [ ] **Gestion des partenaires** : CRUD admin + upload/redimensionnement de logos (VichUploader)
 - [ ] **Gestion des formations** : CRUD admin, ajout/modification/suppression
-- [ ] ** ajout d'un formulaire de préinscriptions pour les formations ouvertes
+- [ ] **Ajout d'un formulaire de préinscriptions pour les formations ouvertes**
 - [ ] **Tracking analytique** : Matomo + Facebook Pixel
-- [ ] **Espace administration** (EasyAdmin) : gestion complete du contenu
+- [ ] **Espace administration** (EasyAdmin) : gestion complète du contenu
 - [ ] **Gestion des utilisateurs** : admin + utilisateurs avec permissions partielles
 
 ### 2.2 Fonctionnalités hors périmètre (v1)
 
-- Blog (supprime)
+- Blog (supprimé)
 - Page RGPD (supprimée)
-- Témoignages (reporte, à voir plus tard)
+- Témoignages (reporté, à voir plus tard)
 
 ---
 
@@ -59,23 +59,23 @@ Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfo
 | Frontend | AssetMapper + Stimulus + Turbo |
 | Admin | EasyAdmin 4.x |
 | Upload images | VichUploaderBundle (redimensionnement logos) |
-| Editeur WYSIWYG | SunEditor |
+| Éditeur WYSIWYG | SunEditor |
 | Environnement dev | Docker Compose / WSL2 |
-| Environnement prod | A preciser |
+| Environnement prod | À préciser |
 
 ---
 
-## 4. Roles et permissions
+## 4. Rôles et permissions
 
-| Role | Acces |
+| Rôle | Accès |
 |------|-------|
-| `ROLE_ADMIN` | Acces complet : tout modifier via EasyAdmin |
-| `ROLE_USER` | Ajout/modification de travaux d'eleves dans leur section de formation |
+| `ROLE_ADMIN` | Accès complet : tout modifier via EasyAdmin |
+| `ROLE_USER` | Ajout/modification de travaux d'élèves dans leur section de formation |
 | Anonyme | Consultation du site public (accueil, formations, contact) |
 
 ---
 
-## 5. Modele de donnees (ebauche)
+## 5. Modèle de données (ébauche)
 
 - **User** : id, email, password, roles
 
@@ -141,11 +141,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 }
 ```
 
-- **Formation** : id, titre, description, icone/image, slug, position (ordre d'affichage), active
+- **Formation** : id, titre, description, icône/image, slug, position (ordre d'affichage), active
 - **Partenaire** : id, nom, logo (upload + redimensionnement 300x200px), url, position, active
 - **PageContent** : id, section (hero, presentation, avantages...), contenu (JSON ou texte), updatedAt
 - **PreInscription** : id, formation (ManyToOne), nom, prenom, email, telephone, message, createdAt
-- **Contact** : id, nom, email, sujet, message, createdAt (historique des messages recus) — envoi vers administration@cf2m.be
+- **Contact** : id, nom, email, sujet, message, createdAt (historique des messages reçus) — envoi vers administration@cf2m.be
 - **TravailEleve** : id, titre, description, image/fichier, user (ManyToOne), formation (ManyToOne), createdAt
 
 ---
@@ -154,37 +154,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 ### Design : Glassmorphism
 
-- Fond avec degradé ou image floue
+- Fond avec dégradé ou image floue
 - Cartes semi-transparentes avec `backdrop-filter: blur()` et bordures subtiles
 - Effets de verre sur les sections principales (hero, formations, partenaires)
-- Palette de couleurs basee sur les tons du logo CF2M
+- Palette de couleurs basée sur les tons du logo CF2M
 
 ### Pages principales
 
 | Page | Description |
 |------|-------------|
-| Accueil | Hero + presentation + formations + avantages + partenaires + video |
-| Formations | Liste des formations avec fiches detaillees |
+| Accueil | Hero + présentation + formations + avantages + partenaires + vidéo |
+| Formations | Liste des formations avec fiches détaillées |
 | Contact | Formulaire (nom, email, sujet, message) — envoi vers administration@cf2m.be |
-| Pre-inscription | Formulaire lie a une formation ouverte |
-| Travaux d'eleves | Section par formation, geree par les ROLE_USER |
+| Pré-inscription | Formulaire lié à une formation ouverte |
+| Travaux d'élèves | Section par formation, gérée par les ROLE_USER |
 | Admin | EasyAdmin : CRUD formations, partenaires, contenu, utilisateurs |
 
 ---
 
-## 7. Criteres d'acceptance
+## 7. Critères d'acceptance
 
-- [ ] Toutes les commandes de verification passent sans erreur
-- [ ] Tests unitaires et fonctionnels couvrent les cas metier principaux
-- [ ] Audit securite (`composer audit`) sans vulnerabilite critique
-- [ ] Documentation a jour (architecture, journal-decisions)
-- [ ] Design glassmorphism coherent sur toutes les pages
+- [ ] Toutes les commandes de vérification passent sans erreur
+- [ ] Tests unitaires et fonctionnels couvrent les cas métier principaux
+- [ ] Audit sécurité (`composer audit`) sans vulnérabilité critique
+- [ ] Documentation à jour (architecture, journal-decisions)
+- [ ] Design glassmorphism cohérent sur toutes les pages
 - [ ] Upload et redimensionnement des logos partenaires fonctionnel
-- [ ] Formulaire de contact operationnel (envoi email)
+- [ ] Formulaire de contact opérationnel (envoi email)
 - [ ] Formations administrables (ajout/modification/suppression)
-- [ ] Tracking Matomo + Facebook Pixel integre
-- [ ] Formulaire de pre-inscription fonctionnel
-- [ ] Travaux d'eleves : ajout par les utilisateurs ROLE_USER
+- [ ] Tracking Matomo + Facebook Pixel intégré
+- [ ] Formulaire de pré-inscription fonctionnel
+- [ ] Travaux d'élèves : ajout par les utilisateurs ROLE_USER
 
 ---
 
@@ -192,6 +192,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 | Version | Date | Description |
 |---------|------|-------------|
-| 0.1 | 2026-02-18 | Creation du cahier des charges |
-| 0.2 | 2026-02-19 | Redaction complete basee sur l'analyse du site existant |
-| 0.3 | 2026-02-19 | Ajout pre-inscriptions, travaux d'eleves, precision roles/logos/contact |
+| 0.1 | 2026-02-18 | Création du cahier des charges |
+| 0.2 | 2026-02-19 | Rédaction complète basée sur l'analyse du site existant |
+| 0.3 | 2026-02-19 | Ajout pré-inscriptions, travaux d'élèves, précision rôles/logos/contact |

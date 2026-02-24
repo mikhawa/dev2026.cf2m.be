@@ -1,8 +1,8 @@
 # architecture.md — Cartographie technique
 
 Projet : **dev2026.cf2m.be**
-Derniere mise a jour : 2026-02-24
-Statut : **Operationnel**
+Dernière mise à jour : 2026-02-24
+Statut : **Opérationnel**
 
 ---
 
@@ -37,17 +37,17 @@ Statut : **Operationnel**
 | `mailpit` | `axllent/mailpit:latest` | 8025 → 8025 (UI), 1025 → 1025 (SMTP) | `cf2m_mailpit` |
 
 Volumes :
-- `.:/var/www/html` monte dans `php` et `nginx`
+- `.:/var/www/html` monté dans `php` et `nginx`
 - `db_data:/var/lib/mysql` pour la persistance MariaDB
 
-Base de donnees : `cf2m_db` / utilisateur `cf2m_user`
+Base de données : `cf2m_db` / utilisateur `cf2m_user`
 
 ### 2.1 Image PHP custom (docker/php/Dockerfile)
 
-Basee sur `php:8.4-fpm`, l'image inclut :
+Basée sur `php:8.4-fpm`, l'image inclut :
 
-**Extensions PHP compilees :**
-| Extension | Role |
+**Extensions PHP compilées :**
+| Extension | Rôle |
 |-----------|------|
 | `pdo_mysql` | Connexion MariaDB via Doctrine |
 | `intl` | Internationalisation (ICU) |
@@ -56,10 +56,10 @@ Basee sur `php:8.4-fpm`, l'image inclut :
 | `zip` | Gestion d'archives ZIP |
 
 **Extensions PECL :**
-| Extension | Version | Role |
+| Extension | Version | Rôle |
 |-----------|---------|------|
-| `xdebug` | 3.5.0 | Debogage et profiling |
-| `apcu` | 5.1.28 | Cache memoire utilisateur |
+| `xdebug` | 3.5.0 | Débogage et profiling |
+| `apcu` | 5.1.28 | Cache mémoire utilisateur |
 
 **Configuration Xdebug :**
 - `xdebug.mode=develop,debug` — informations enrichies + step debugging
@@ -70,7 +70,7 @@ Basee sur `php:8.4-fpm`, l'image inclut :
 - `apc.enable_cli=1` — cache actif en CLI (commandes Symfony)
 
 **Outils inclus :**
-- Composer (derniere version, copiee depuis l'image officielle)
+- Composer (dernière version, copiée depuis l'image officielle)
 - Node.js 22 LTS + npm (pour Tailwind CSS CLI)
 
 **Configuration PHP :**
@@ -82,7 +82,7 @@ Basee sur `php:8.4-fpm`, l'image inclut :
 Le fichier `docker/nginx/default.conf` configure :
 - Document root : `/var/www/html/public`
 - Front controller : `index.php` (Symfony)
-- Toutes les requetes non-fichier sont routees vers `index.php`
+- Toutes les requêtes non-fichier sont routées vers `index.php`
 - Les fichiers `.php` hors front controller retournent 404
 
 ---
@@ -92,10 +92,10 @@ Le fichier `docker/nginx/default.conf` configure :
 ```
 dev2026.cf2m.be/
 ├── assets/
-│   ├── app.js                # Point d'entree JS (Stimulus + Turbo)
+│   ├── app.js                # Point d'entrée JS (Stimulus + Turbo)
 │   ├── bootstrap.js          # Initialisation Stimulus
 │   └── styles/
-│       └── app.css           # Point d'entree CSS (Tailwind v4)
+│       └── app.css           # Point d'entrée CSS (Tailwind v4)
 ├── bin/
 │   ├── console               # CLI Symfony
 │   └── phpunit               # Lanceur de tests
@@ -122,8 +122,8 @@ dev2026.cf2m.be/
 │       └── Dockerfile         # Image PHP custom
 ├── documentation/             # Documentation technique
 │   ├── architecture.md        # Ce fichier
-│   ├── journal-decisions.md   # Decisions techniques (ADR)
-│   └── securite.md            # Audit de securite
+│   ├── journal-decisions.md   # Décisions techniques (ADR)
+│   └── securite.md            # Audit de sécurité
 ├── public/
 │   └── index.php              # Front controller
 ├── src/
@@ -140,7 +140,7 @@ dev2026.cf2m.be/
 ├── tests/
 ├── translations/
 ├── var/                       # Cache, logs (gitignore)
-├── vendor/                    # Dependances (gitignore)
+├── vendor/                    # Dépendances (gitignore)
 ├── .env                       # Variables d'environnement
 ├── composer.json
 ├── docker-compose.yml
@@ -152,36 +152,36 @@ dev2026.cf2m.be/
 
 ## 4. Couches applicatives
 
-### 4.1 Controleurs
-- Minces : delegation vers services/repositories
-- Pas de logique metier dans les controleurs
-- Routes definies par attributs PHP (`#[Route]`)
+### 4.1 Contrôleurs
+- Minces : délégation vers services/repositories
+- Pas de logique métier dans les contrôleurs
+- Routes définies par attributs PHP (`#[Route]`)
 
 **Routes actuelles :**
-| Route | Controleur | Description |
+| Route | Contrôleur | Description |
 |-------|-----------|-------------|
 | `/` (`app_accueil`) | `AccueilController::index` | Page d'accueil |
 
-### 4.2 Entites / Doctrine
+### 4.2 Entités / Doctrine
 - Attributs PHP 8.x pour le mapping
-- Migrations versionnees
+- Migrations versionnées
 - Connexion MariaDB 11.4 via `DATABASE_URL`
 
 ### 4.3 Templates Twig
 - Layout principal : `base.html.twig`
-- Partials prefixes par `_` (ex: `_hero.html.twig`)
-- Composants reutilisables via Twig Components (a venir)
-- Pas de logique metier dans les templates
+- Partials préfixés par `_` (ex: `_hero.html.twig`)
+- Composants réutilisables via Twig Components (à venir)
+- Pas de logique métier dans les templates
 
 ### 4.4 Frontend
 - **AssetMapper** : pas de build step pour JS
 - **Tailwind CSS 4.1.11** via `symfonycasts/tailwind-bundle` (compilation automatique)
-- **Stimulus.js** pour l'interactivite JS
+- **Stimulus.js** pour l'interactivité JS
 - **Symfony UX Turbo** pour la navigation SPA-like
 
 ### 4.5 Administration
-- **EasyAdmin 4.x** : interface CRUD auto-generee (a installer)
-- Acces restreint a `ROLE_ADMIN`
+- **EasyAdmin 4.x** : interface CRUD auto-générée (à installer)
+- Accès restreint à `ROLE_ADMIN`
 
 ---
 
@@ -190,7 +190,7 @@ dev2026.cf2m.be/
 | Composant | Version |
 |-----------|---------|
 | PHP | 8.4.18 |
-| Symfony | 7.4.5 (LTS, maintenu jusqu'a 11/2028) |
+| Symfony | 7.4.5 (LTS, maintenu jusqu'à 11/2028) |
 | MariaDB | 11.4 |
 | Doctrine ORM | 3.6.2 |
 | Tailwind CSS | 4.1.11 |
@@ -204,14 +204,14 @@ dev2026.cf2m.be/
 
 ---
 
-## 6. Dependances Composer principales
+## 6. Dépendances Composer principales
 
 ### Production (`require`)
-| Paquet | Role |
+| Paquet | Rôle |
 |--------|------|
 | `symfony/framework-bundle` 7.4.* | Socle Symfony |
 | `doctrine/orm` ^3.6 | ORM |
-| `doctrine/doctrine-bundle` ^3.2 | Integration Doctrine/Symfony |
+| `doctrine/doctrine-bundle` ^3.2 | Intégration Doctrine/Symfony |
 | `doctrine/doctrine-migrations-bundle` ^4.0 | Migrations BDD |
 | `symfony/asset-mapper` 7.4.* | Gestion des assets sans build |
 | `symfonycasts/tailwind-bundle` ^0.12 | Compilation Tailwind CSS |
@@ -221,26 +221,26 @@ dev2026.cf2m.be/
 | `symfony/validator` 7.4.* | Validation |
 | `symfony/mailer` 7.4.* | Envoi d'emails |
 | `symfony/messenger` 7.4.* | Bus de messages |
-| `symfony/stimulus-bundle` ^2.32 | Integration Stimulus.js |
+| `symfony/stimulus-bundle` ^2.32 | Intégration Stimulus.js |
 | `symfony/ux-turbo` ^2.32 | Navigation Turbo Drive |
-| `symfony/serializer` 7.4.* | Serialisation |
+| `symfony/serializer` 7.4.* | Sérialisation |
 | `symfony/http-client` 7.4.* | Client HTTP |
 | `twig/twig` ^3.0 | Moteur Twig |
 | `twig/extra-bundle` ^3.0 | Extensions Twig |
 
-### Developpement (`require-dev`)
-| Paquet | Role |
+### Développement (`require-dev`)
+| Paquet | Rôle |
 |--------|------|
 | `phpunit/phpunit` ^13.0 | Tests unitaires et fonctionnels |
-| `symfony/maker-bundle` ^1.0 | Generateur de code |
+| `symfony/maker-bundle` ^1.0 | Générateur de code |
 | `symfony/web-profiler-bundle` 7.4.* | Barre de debug |
-| `symfony/debug-bundle` 7.4.* | Debug avance |
+| `symfony/debug-bundle` 7.4.* | Debug avancé |
 | `symfony/browser-kit` 7.4.* | Tests HTTP |
 | `symfony/stopwatch` 7.4.* | Mesure de performance |
 
 ---
 
-## 7. URLs de developpement
+## 7. URLs de développement
 
 | Service | URL |
 |---------|-----|
@@ -254,13 +254,13 @@ dev2026.cf2m.be/
 ## 8. Commandes utiles
 
 ```bash
-# Demarrer l'environnement
+# Démarrer l'environnement
 docker compose up -d
 
-# Arreter l'environnement
+# Arrêter l'environnement
 docker compose down
 
-# Rebuild de l'image PHP (apres modification du Dockerfile)
+# Rebuild de l'image PHP (après modification du Dockerfile)
 docker compose build php && docker compose up -d
 
 # Console Symfony
@@ -272,7 +272,7 @@ docker compose exec php php bin/console tailwind:build
 # Compiler Tailwind CSS (mode watch)
 docker compose exec php php bin/console tailwind:build --watch
 
-# Installer les dependances Composer
+# Installer les dépendances Composer
 docker compose exec php composer install
 
 # Lancer les tests
@@ -286,10 +286,10 @@ docker compose exec php php bin/console lint:container
 
 ---
 
-## 9. Historique des mises a jour
+## 9. Historique des mises à jour
 
 | Date | Description |
 |------|-------------|
-| 2026-02-18 | Creation du document (structure initiale) |
+| 2026-02-18 | Création du document (structure initiale) |
 | 2026-02-19 | Installation Symfony 7.4.5, webapp, Tailwind CSS 4.1.11, Xdebug 3.5.0, APCu 5.1.28. Page d'accueil avec design glassmorphism |
 | 2026-02-24 | Ajout du service Mailpit (interception mails en dev). MAILER_DSN pointe vers smtp://mailpit:1025 |

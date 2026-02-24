@@ -1,13 +1,13 @@
 # CLAUDE_MODEL.md — Modèle de travail complet
 
-Ce fichier définit le workflow, la structure documentaire, la checklist securite et les pièges courants pour le projet `dev2026.cf2m.be`.
+Ce fichier définit le workflow, la structure documentaire, la checklist sécurité et les pièges courants pour le projet `dev2026.cf2m.be`.
 
 ---
 
-## Workflow general
+## Workflow général
 
 1. **Lire** `CLAUDE.md` et `PROJECT_SPEC.md` avant toute intervention
-2. **Vérifier** l'état du depot (`git status`, `git log --oneline -5`)
+2. **Vérifier** l'état du dépôt (`git status`, `git log --oneline -5`)
 3. **Planifier** les modifications avant de coder
 4. **Coder** en respectant les règles de codage (cf. `CLAUDE.md`)
 5. **Valider** avec les commandes de vérification dans l'ordre défini
@@ -16,38 +16,38 @@ Ce fichier définit le workflow, la structure documentaire, la checklist securit
 
 ---
 
-## Agents et roles
+## Agents et rôles
 
-| Agent | Role |
+| Agent | Rôle |
 |-------|------|
-| Claude Code (principal) | Implementation, refactoring, debug |
-| Claude Code (revue) | Relecture securite, qualite de code |
+| Claude Code (principal) | Implémentation, refactoring, debug |
+| Claude Code (revue) | Relecture sécurité, qualité de code |
 
 ---
 
 ## Structure documentaire
 
-| Fichier | Role | Statut |
+| Fichier | Rôle | Statut |
 |---------|------|--------|
 | `CLAUDE.md` | Instructions Claude Code | Actif |
-| `CLAUDE_MODEL.md` | Modele de travail (ce fichier) | Actif |
-| `PROJECT_SPEC.md` | Cahier des charges | A completer |
-| `documentation/architecture.md` | Cartographie technique | A completer |
-| `documentation/journal-decisions.md` | Decisions techniques (ADR) | Cumulatif |
-| `documentation/securite.md` | Audit de securite permanent | Cumulatif |
+| `CLAUDE_MODEL.md` | Modèle de travail (ce fichier) | Actif |
+| `PROJECT_SPEC.md` | Cahier des charges | À compléter |
+| `documentation/architecture.md` | Cartographie technique | À compléter |
+| `documentation/journal-decisions.md` | Décisions techniques (ADR) | Cumulatif |
+| `documentation/securite.md` | Audit de sécurité permanent | Cumulatif |
 
 ---
 
-## Checklist securite
+## Checklist sécurité
 
-A verifier avant chaque commit significatif :
+À vérifier avant chaque commit significatif :
 
 - [ ] Pas de secret ou credential en dur dans le code
 - [ ] Pas de SQL brut concaténé (utiliser Doctrine + paramètres)
 - [ ] Pas de `|raw` Twig sans passage par HtmlSanitizer
 - [ ] Pas de `eval()`, `exec()` ou fonctions dangereuses non justifiées
-- [ ] Variables d'environnement sensibles dans `.env.local` (non versionne)
-- [ ] Entrées 'utilisateur' validées et assainies coté serveur
+- [ ] Variables d'environnement sensibles dans `.env.local` (non versionné)
+- [ ] Entrées utilisateur validées et assainies côté serveur
 - [ ] Dépendances auditées (`composer audit`)
 - [ ] Permissions fichiers correctes (pas de 777)
 - [ ] CSRF actif sur les formulaires Symfony
@@ -58,29 +58,29 @@ A verifier avant chaque commit significatif :
 ## Pièges courants
 
 ### Symfony / Doctrine
-- Oublier de vider le cache apres modification de config : `php bin/console cache:clear`
-- Créer une migration sans valider le schema : toujours lancer `doctrine:schema:validate`
+- Oublier de vider le cache après modification de config : `php bin/console cache:clear`
+- Créer une migration sans valider le schéma : toujours lancer `doctrine:schema:validate`
 - Utiliser `findAll()` sur une table volumineuse : préférer la pagination (Doctrine Paginator)
 - Injecter le `EntityManager` directement dans un controller : préférer les Repositories
 
 ### Twig / Frontend
-- Utiliser `|raw` sans assainissement prealable : risque XSS
+- Utiliser `|raw` sans assainissement préalable : risque XSS
 - Oublier `{% block %}` dans les templates enfants
-- Melanger logique metier et affichage dans les templates
+- Mélanger logique métier et affichage dans les templates
 
 ### Docker / Environnement
-- Executer les commandes Symfony hors du conteneur : prefixer `docker compose exec php`
+- Exécuter les commandes Symfony hors du conteneur : préfixer `docker compose exec php`
 - Modifier `.env` au lieu de `.env.local` pour les secrets locaux
-- Ne pas rebuilder l'image apres modification du `Dockerfile` : `docker compose build`
+- Ne pas rebuilder l'image après modification du `Dockerfile` : `docker compose build`
 
 ### Tests
-- Utiliser `createMock()` sans definir d'expectations : utiliser `createStub()`
-- Tester avec la base de donnees de production : utiliser une DB de test dediee
-- Oublier de reinitialiser les fixtures entre les tests
+- Utiliser `createMock()` sans définir d'expectations : utiliser `createStub()`
+- Tester avec la base de données de production : utiliser une DB de test dédiée
+- Oublier de réinitialiser les fixtures entre les tests
 
 ### Git
 - Committer des fichiers de debug ou de configuration locale
-- Ecrire des messages de commit en anglais (projet en francais)
+- Écrire des messages de commit en anglais (projet en français)
 - Pousser sans demande explicite
 
 ---

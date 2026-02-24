@@ -1,20 +1,20 @@
-# journal-decisions.md — Journal des decisions techniques (ADR)
+# journal-decisions.md — Journal des décisions techniques (ADR)
 
 Projet : **dev2026.cf2m.be**
 Format : Architecture Decision Record (ADR) — document cumulatif
-Derniere mise a jour : 2026-02-24
+Dernière mise à jour : 2026-02-24
 
 ---
 
 ## Comment utiliser ce journal
 
-Chaque decision technique significative est consignee ici sous forme d'ADR :
-- **Contexte** : pourquoi cette decision a ete necessaire
-- **Decision** : ce qui a ete choisi
-- **Consequences** : impacts positifs et negatifs
+Chaque décision technique significative est consignée ici sous forme d'ADR :
+- **Contexte** : pourquoi cette décision a été nécessaire
+- **Décision** : ce qui a été choisi
+- **Conséquences** : impacts positifs et négatifs
 
-Ajouter une entree pour toute decision qui :
-- change la stack ou une dependance majeure
+Ajouter une entrée pour toute décision qui :
+- change la stack ou une dépendance majeure
 - modifie l'architecture ou la structure du projet
 - introduit une contrainte ou une convention nouvelle
 
@@ -23,115 +23,115 @@ Ajouter une entree pour toute decision qui :
 ## ADR-001 — Choix de la stack technique
 
 **Date :** 2026-02-18
-**Statut :** Accepte
+**Statut :** Accepté
 
 ### Contexte
-Initialisation du projet dev2026.cf2m.be. Besoin d'une stack eprouvee, maintenable et alignee avec le retour d'experience du projet cv-mikhawa.
+Initialisation du projet dev2026.cf2m.be. Besoin d'une stack éprouvée, maintenable et alignée avec le retour d'expérience du projet cv-mikhawa.
 
-### Decision
+### Décision
 - PHP 8.4 / Symfony 7.4 LTS
 - MariaDB 11.4 avec Doctrine ORM 3.6
 - AssetMapper (pas de Webpack Encore, pas de build step)
 - Tailwind CSS 4.x via `symfonycasts/tailwind-bundle`
 - Stimulus.js + Symfony UX Turbo
 - EasyAdmin 4.x pour l'administration
-- Docker Compose pour l'environnement de developpement
+- Docker Compose pour l'environnement de développement
 
-### Consequences
-- **+** Stack coherente avec les projets precedents, courbe d'apprentissage reduite
-- **+** Pas de build step front (AssetMapper), simplicite accrue
-- **+** Symfony 7.4 LTS : support long terme jusqu'a 11/2029
-- **-** Tailwind CSS 4.x avec AssetMapper : configuration specifique via le bundle symfonycasts
+### Conséquences
+- **+** Stack cohérente avec les projets précédents, courbe d'apprentissage réduite
+- **+** Pas de build step front (AssetMapper), simplicité accrue
+- **+** Symfony 7.4 LTS : support long terme jusqu'à 11/2029
+- **-** Tailwind CSS 4.x avec AssetMapper : configuration spécifique via le bundle symfonycasts
 
 ---
 
 ## ADR-002 — Langue du projet
 
 **Date :** 2026-02-18
-**Statut :** Accepte
+**Statut :** Accepté
 
 ### Contexte
-Projet developpe par une equipe francophone. Besoin d'une langue unique pour eviter les incoherences.
+Projet développé par une équipe francophone. Besoin d'une langue unique pour éviter les incohérences.
 
-### Decision
-Tout le projet (code metier, commits, documentation, commentaires, messages d'erreur) est en francais.
+### Décision
+Tout le projet (code métier, commits, documentation, commentaires, messages d'erreur) est en français.
 
-### Consequences
-- **+** Coherence et lisibilite pour l'equipe
-- **-** Friction potentielle avec des outils ou librairies en anglais (noms de methodes Symfony, etc.)
+### Conséquences
+- **+** Cohérence et lisibilité pour l'équipe
+- **-** Friction potentielle avec des outils ou librairies en anglais (noms de méthodes Symfony, etc.)
 
 ---
 
 ## ADR-003 — Installation Symfony et page d'accueil glassmorphism
 
 **Date :** 2026-02-19
-**Statut :** Accepte
+**Statut :** Accepté
 
 ### Contexte
-L'infrastructure Docker etant operationnelle (4 services), il fallait installer le framework Symfony et mettre en place la premiere page visible du site avec le design fourni par le designer.
+L'infrastructure Docker étant opérationnelle (4 services), il fallait installer le framework Symfony et mettre en place la première page visible du site avec le design fourni par le designer.
 
-### Decision
+### Décision
 - Installation de Symfony 7.4.5 via `composer create-project symfony/skeleton:"7.4.*"`
 - Installation du pack `webapp` (Twig, Doctrine, Security, Mailer, AssetMapper, Stimulus, Turbo)
-- Tailwind CSS 4.1.11 via `symfonycasts/tailwind-bundle` (compilation par le binaire Tailwind, sans Node.js cote build)
-- Suppression du service PostgreSQL ajoute automatiquement par la recette Doctrine (on utilise MariaDB)
-- Suppression du fichier `compose.override.yaml` genere par les recettes (conflictuel avec notre config)
-- Design glassmorphism pour la page d'accueil : fond bleu fonce, navigation semi-transparente, carte chiffres cles avec backdrop-blur
+- Tailwind CSS 4.1.11 via `symfonycasts/tailwind-bundle` (compilation par le binaire Tailwind, sans Node.js côté build)
+- Suppression du service PostgreSQL ajouté automatiquement par la recette Doctrine (on utilise MariaDB)
+- Suppression du fichier `compose.override.yaml` généré par les recettes (conflictuel avec notre config)
+- Design glassmorphism pour la page d'accueil : fond bleu foncé, navigation semi-transparente, carte chiffres clés avec backdrop-blur
 
-### Consequences
+### Conséquences
 - **+** Application Symfony fonctionnelle accessible sur http://localhost:8085
-- **+** Tailwind CSS 4 compile automatiquement via la commande `tailwind:build`
-- **+** Page d'accueil fidele au design du designer (header, hero, chiffres cles, CTA)
-- **-** Les images (fond hero, portrait, logo) sont des placeholders a remplacer par les vrais assets
+- **+** Tailwind CSS 4 compilé automatiquement via la commande `tailwind:build`
+- **+** Page d'accueil fidèle au design du designer (header, hero, chiffres clés, CTA)
+- **-** Les images (fond hero, portrait, logo) sont des placeholders à remplacer par les vrais assets
 
 ---
 
 ## ADR-004 — Activation de Xdebug et APCu
 
 **Date :** 2026-02-19
-**Statut :** Accepte
+**Statut :** Accepté
 
 ### Contexte
-L'image PHP custom ne disposait ni de debogueur ni de cache memoire utilisateur. Xdebug est essentiel pour le debug pas a pas dans l'IDE, et APCu ameliore les performances en developpement.
+L'image PHP custom ne disposait ni de débogueur ni de cache mémoire utilisateur. Xdebug est essentiel pour le debug pas à pas dans l'IDE, et APCu améliore les performances en développement.
 
-### Decision
+### Décision
 - Installation de Xdebug 3.5.0 et APCu 5.1.28 via PECL dans le Dockerfile
-- Xdebug configure en mode `develop,debug` avec `start_with_request=trigger` (activation a la demande via cookie/header)
+- Xdebug configuré en mode `develop,debug` avec `start_with_request=trigger` (activation à la demande via cookie/header)
 - Connexion Xdebug vers `host.docker.internal` (compatible WSL2)
-- APCu active en CLI (`apc.enable_cli=1`) pour le cache des commandes Symfony
+- APCu activé en CLI (`apc.enable_cli=1`) pour le cache des commandes Symfony
 
-### Consequences
-- **+** Debug pas a pas disponible dans l'IDE (PhpStorm, VS Code) via le trigger `XDEBUG_TRIGGER`
+### Conséquences
+- **+** Debug pas à pas disponible dans l'IDE (PhpStorm, VS Code) via le trigger `XDEBUG_TRIGGER`
 - **+** Informations de debug enrichies en mode develop (meilleurs var_dump, stack traces)
 - **+** Cache APCu disponible pour Symfony (sessions, metadata Doctrine en dev)
-- **-** Xdebug ralentit legerement l'execution meme en mode trigger (impact minimal en dev)
-- **-** L'image Docker est plus volumineuse (~30 Mo supplementaires)
+- **-** Xdebug ralentit légèrement l'exécution même en mode trigger (impact minimal en dev)
+- **-** L'image Docker est plus volumineuse (~30 Mo supplémentaires)
 
 ---
 
-## ADR-005 — Ajout de Mailpit pour l'interception des emails en developpement
+## ADR-005 — Ajout de Mailpit pour l'interception des emails en développement
 
 **Date :** 2026-02-24
-**Statut :** Accepte
+**Statut :** Accepté
 
 ### Contexte
-Le projet utilise `symfony/mailer` pour l'envoi d'emails. En developpement, le DSN etait configure sur `null://null`, ce qui rendait impossible la verification du rendu et du contenu des emails envoyes par l'application.
+Le projet utilise `symfony/mailer` pour l'envoi d'emails. En développement, le DSN était configuré sur `null://null`, ce qui rendait impossible la vérification du rendu et du contenu des emails envoyés par l'application.
 
-### Decision
+### Décision
 - Ajout du service `axllent/mailpit:latest` dans `docker-compose.yml`
 - Port SMTP interne : `1025` (accessible depuis le conteneur `php` via `mailpit:1025`)
-- Port UI web : `8025` (accessible depuis l'hote via http://localhost:8025)
-- `MAILER_DSN` mis a jour dans `.env` : `smtp://mailpit:1025`
+- Port UI web : `8025` (accessible depuis l'hôte via http://localhost:8025)
+- `MAILER_DSN` mis à jour dans `.env` : `smtp://mailpit:1025`
 - Variables d'environnement Mailpit : `MP_SMTP_AUTH_ACCEPT_ANY=1` et `MP_SMTP_AUTH_ALLOW_INSECURE=1` pour accepter toute connexion SMTP sans TLS en dev
-- Service `mailpit` ajoute dans les `depends_on` du conteneur `php`
+- Service `mailpit` ajouté dans les `depends_on` du conteneur `php`
 
-### Consequences
-- **+** Tous les emails envoyes par Symfony sont interceptes et visibles dans l'UI Mailpit (http://localhost:8025)
-- **+** Aucun email n'est reellement envoye en developpement — zero risque d'envoi accidentel
-- **+** Interface web simple : liste, apercu HTML/texte, entetes SMTP
+### Conséquences
+- **+** Tous les emails envoyés par Symfony sont interceptés et visibles dans l'UI Mailpit (http://localhost:8025)
+- **+** Aucun email n'est réellement envoyé en développement — zéro risque d'envoi accidentel
+- **+** Interface web simple : liste, aperçu HTML/texte, en-têtes SMTP
 - **+** Pas de compte SMTP externe requis en dev
-- **-** Un service Docker supplementaire a demarrer (impact negligeable)
+- **-** Un service Docker supplémentaire à démarrer (impact négligeable)
 
 ---
 
-<!-- Ajouter les prochaines decisions ci-dessous en suivant le meme format -->
+<!-- Ajouter les prochaines décisions ci-dessous en suivant le même format -->
