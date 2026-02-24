@@ -30,7 +30,7 @@ Basée sur le retour d'expérience du projet cv-mikhawa
 
 > Mettre à jour cette section dès que `composer.json` et `docker-compose.yml` sont créés.
 
-## Commandes de verification (dans Docker)
+## Commandes de vérification (dans Docker)
 
 Exécuter dans l'ordre — corriger chaque étape avant de passer a la suivante :
 

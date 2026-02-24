@@ -40,11 +40,11 @@ Refonte du site existant [cf2m.be](https://www.cf2m.be) (Symfony 5.4) vers Symfo
 - [ ] **Espace administration** (EasyAdmin) : gestion complete du contenu
 - [ ] **Gestion des utilisateurs** : admin + utilisateurs avec permissions partielles
 
-### 2.2 Fonctionnalites hors perimetre (v1)
+### 2.2 Fonctionnalités hors périmètre (v1)
 
 - Blog (supprime)
-- Page RGPD (supprimee)
-- Temoignages (reporte, a voir plus tard)
+- Page RGPD (supprimée)
+- Témoignages (reporte, à voir plus tard)
 
 ---
 

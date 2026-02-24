@@ -1,13 +1,13 @@
 # securite.md — Audit de securite permanent
 
 Projet : **dev2026.cf2m.be**
-Derniere mise a jour : 2026-02-18
+Dernière mise à jour : 2026-02-18
 
 ---
 
 ## 1. Principe general
 
-Ce document est mis a jour en continu. Chaque vulnerabilite identifiee, corrigee ou acceptee est consignee ici. Il sert egalement de checklist de revue avant chaque mise en production.
+Ce document est mis à jour en continu. Chaque vulnérabilité identifiee, corrigée ou acceptee est consignee ici. Il sert également de checklist de revue avant chaque mise en production.
 
 ---
 
@@ -31,8 +31,8 @@ Ce document est mis a jour en continu. Chaque vulnerabilite identifiee, corrigee
 ## 3. Regles specifiques au projet
 
 ### 3.1 Injection
-- **Interdit** : SQL brut concatene avec des variables utilisateur
-- **Obligatoire** : Doctrine QueryBuilder ou DQL avec parametres lies
+- **Interdit** : SQL brut concaténé avec des variables utilisateur
+- **Obligatoire** : Doctrine QueryBuilder ou DQL avec paramètres liés
 
 ```php
 // INTERDIT
