@@ -2,7 +2,7 @@
 
 Projet : **dev2026.cf2m.be**
 Format : Architecture Decision Record (ADR) — document cumulatif
-Derniere mise a jour : 2026-02-19
+Derniere mise a jour : 2026-02-24
 
 ---
 
@@ -106,6 +106,31 @@ L'image PHP custom ne disposait ni de debogueur ni de cache memoire utilisateur.
 - **+** Cache APCu disponible pour Symfony (sessions, metadata Doctrine en dev)
 - **-** Xdebug ralentit legerement l'execution meme en mode trigger (impact minimal en dev)
 - **-** L'image Docker est plus volumineuse (~30 Mo supplementaires)
+
+---
+
+## ADR-005 — Ajout de Mailpit pour l'interception des emails en developpement
+
+**Date :** 2026-02-24
+**Statut :** Accepte
+
+### Contexte
+Le projet utilise `symfony/mailer` pour l'envoi d'emails. En developpement, le DSN etait configure sur `null://null`, ce qui rendait impossible la verification du rendu et du contenu des emails envoyes par l'application.
+
+### Decision
+- Ajout du service `axllent/mailpit:latest` dans `docker-compose.yml`
+- Port SMTP interne : `1025` (accessible depuis le conteneur `php` via `mailpit:1025`)
+- Port UI web : `8025` (accessible depuis l'hote via http://localhost:8025)
+- `MAILER_DSN` mis a jour dans `.env` : `smtp://mailpit:1025`
+- Variables d'environnement Mailpit : `MP_SMTP_AUTH_ACCEPT_ANY=1` et `MP_SMTP_AUTH_ALLOW_INSECURE=1` pour accepter toute connexion SMTP sans TLS en dev
+- Service `mailpit` ajoute dans les `depends_on` du conteneur `php`
+
+### Consequences
+- **+** Tous les emails envoyes par Symfony sont interceptes et visibles dans l'UI Mailpit (http://localhost:8025)
+- **+** Aucun email n'est reellement envoye en developpement — zero risque d'envoi accidentel
+- **+** Interface web simple : liste, apercu HTML/texte, entetes SMTP
+- **+** Pas de compte SMTP externe requis en dev
+- **-** Un service Docker supplementaire a demarrer (impact negligeable)
 
 ---
 

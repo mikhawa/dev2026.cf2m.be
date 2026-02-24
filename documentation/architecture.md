@@ -1,7 +1,7 @@
 # architecture.md — Cartographie technique
 
 Projet : **dev2026.cf2m.be**
-Derniere mise a jour : 2026-02-19
+Derniere mise a jour : 2026-02-24
 Statut : **Operationnel**
 
 ---
@@ -18,10 +18,10 @@ Statut : **Operationnel**
      | FastCGI (:9000)
      v
 [PHP-FPM 8.4.18 / Symfony 7.4.5]
-     |
-     | Doctrine ORM
-     v
-[MariaDB 11.4]
+     |              |
+     | Doctrine ORM | SMTP (:1025)
+     v              v
+[MariaDB 11.4]  [Mailpit]
 ```
 
 ---
@@ -32,8 +32,9 @@ Statut : **Operationnel**
 |---------|-------|------------------------|---------------|
 | `php` | `php:8.4-fpm` (build custom) | — (FastCGI 9000 interne) | `cf2m_php` |
 | `nginx` | `nginx:alpine` | 8085 → 80 | `cf2m_nginx` |
-| `db` | `mariadb:11.4` | 3306 → 3306 | `cf2m_db` |
+| `db` | `mariadb:11.4` | 3307 → 3306 | `cf2m_db` |
 | `phpmyadmin` | `phpmyadmin:latest` | 8181 → 80 | `cf2m_phpmyadmin` |
+| `mailpit` | `axllent/mailpit:latest` | 8025 → 8025 (UI), 1025 → 1025 (SMTP) | `cf2m_mailpit` |
 
 Volumes :
 - `.:/var/www/html` monte dans `php` et `nginx`
@@ -245,6 +246,7 @@ dev2026.cf2m.be/
 |---------|-----|
 | Application | http://localhost:8085 |
 | phpMyAdmin | http://localhost:8181 |
+| Mailpit (interface mail) | http://localhost:8025 |
 | Web Profiler | http://localhost:8085/_profiler |
 
 ---
@@ -290,3 +292,4 @@ docker compose exec php php bin/console lint:container
 |------|-------------|
 | 2026-02-18 | Creation du document (structure initiale) |
 | 2026-02-19 | Installation Symfony 7.4.5, webapp, Tailwind CSS 4.1.11, Xdebug 3.5.0, APCu 5.1.28. Page d'accueil avec design glassmorphism |
+| 2026-02-24 | Ajout du service Mailpit (interception mails en dev). MAILER_DSN pointe vers smtp://mailpit:1025 |

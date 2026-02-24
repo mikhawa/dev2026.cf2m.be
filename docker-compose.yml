@@ -8,6 +8,7 @@ services:
       - .:/var/www/html
     depends_on:
       - db
+      - mailpit
     environment:
       DATABASE_URL: "mysql://cf2m_user:cf2m_pass@db:3306/cf2m_db?serverVersion=11.4.10-MariaDB"
 
@@ -46,6 +47,16 @@ services:
       PMA_PASSWORD: cf2m_pass
     depends_on:
       - db
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: cf2m_mailpit
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
 volumes:
   db_data:
