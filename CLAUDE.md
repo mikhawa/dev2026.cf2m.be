@@ -4,7 +4,7 @@ Ce fichier Claude Code (claude.ai/code) est le guide pour le projet cf2m.be en m
 
 ## Langue du projet
 
-Français pour le code, les commits, la documentation et les échanges.
+Français bien orthographié pour le code, les commits, la documentation et les échanges.
 
 ## Vue d'ensemble
 
