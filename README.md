@@ -6,6 +6,6 @@ Pour modifier CLAUDE_MODEL.md.
 
 Liens :
 
-- Nginx : localhost:8085
-- phpMyAdmin : localhost:8181
-- Mailpit : localhost:8025
+- Nginx : http://localhost:8085
+- phpMyAdmin : http://localhost:8181
+- Mailpit : http://localhost:8025
